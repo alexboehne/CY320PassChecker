@@ -16,18 +16,22 @@ def create_banner(text):
 
 # NIST Password Guidelines
 def check_nist_password_guidelines(password):
-    nist_len = r'^.{8,}$'  
+    nist_len = r'^.{8,}$' # regex for >8 char passwords
+
+    # regex for if string has upper and lower char, number, and symbol
     nist_complexity = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$'  
-    if re.match(nist_len, password) and re.match(nist_complexity, password):
+    if re.match(nist_len, password) and re.match(nist_complexity, password): # check for regex match
         return True
     else:
         return False
 
 # OWASP Password Guidelines
 def check_owasp_password_guidelines(password):
-    owasp_len = r'^.{12,}$'  
+    owasp_len = r'^.{12,}$'# regex for >12 char passwords
+
+    # regex for if string has upper and lower char, number, and symbol
     owasp_complexity = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]*[^A-Za-z0-9][A-Za-z\d]*$'  
-    if re.match(owasp_len, password) and re.match(owasp_complexity, password):
+    if re.match(owasp_len, password) and re.match(owasp_complexity, password): # check for regex match
         return True
     else:
         return False
@@ -38,14 +42,14 @@ def check_password_strength(password):
     complexity_strength = 0
 
     if any(char.isupper() for char in password) and any(char.islower() for char in password):
-        complexity_strength += 2
+        complexity_strength += 2 # add strength if pass has upper and lower char
     if any(char.isdigit() for char in password):
-        complexity_strength += 2
+        complexity_strength += 2 # add strength if pass has digit
     if any(char in '@$!%*?&' for char in password):
-        complexity_strength += 2
+        complexity_strength += 2 # add strength if pass has special symbol
     
     total_strength = length_strength + complexity_strength
-    return total_strength
+    return total_strength # return total pass strength
 
 # i tried to make this look pleasing, but this is not a PyQt5 class
 class PasswordPolicyChecker(QWidget):
